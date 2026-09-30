@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pika - AI Interview Copilot for Windows</title>
+  <meta name="description" content="Pika is an advanced AI Interview Copilot desktop application for Windows, featuring real-time meeting transcription, instant smart hints, and stealth assistance.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #111827;
+      --border: #1f2937;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    h1 {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    h1 span {
+      background: linear-gradient(135deg, #60a5fa, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 auto 36px;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 15px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: #1f2937;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: #374151;
+    }
+    .features {
+      padding: 60px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+    }
+    .feature-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #93c5fd;
+    }
+    .feature-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .pricing {
+      padding: 80px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .pricing h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+      text-align: left;
+    }
+    .price-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .price-card.popular {
+      border-color: #3b82f6;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    }
+    .popular-tag {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: #3b82f6;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+    }
+    .plan-name { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .plan-price { font-size: 32px; font-weight: 800; color: #60a5fa; margin-bottom: 12px; }
+    .plan-desc { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+    .policy-section {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+    }
+    .policy-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .policy-box h3 {
+      font-size: 20px;
+      margin-bottom: 14px;
+      color: #60a5fa;
+    }
+    .policy-box p, .policy-box li {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .policy-box ul {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">⚡ Pika AI</div>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing Plans</a>
+        <a href="#policies">Policies</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="badge">Windows Desktop Application</div>
+      <h1>AI Interview Copilot<br><span>For Peak Performance</span></h1>
+      <p>Pika is a native Windows desktop copilot providing real-time audio transcription, intelligent context reasoning, and undetectable assistive screen prompts.</p>
+      <div class="btn-group">
+        <a href="https://drive.google.com/file/d/18JBlmPdBg0Ol7IPKLLXdJb_3zeEReHQC/view?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+          Download Pika for Windows (.exe)
+        </a>
+        <a href="#pricing" class="btn btn-secondary">View Pricing & Plans</a>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="feature-card">
+        <h3>🎙️ Real-time Audio Transcription</h3>
+        <p>Continuous dual-stream audio capture capturing microphone and system audio without latency, feeding live conversational context directly to local models.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🧠 Multi-Model Intelligence</h3>
+        <p>Harness fast text inference with Groq, Claude, OpenAI, and Gemini Pro for instant concise explanations, code generation, and interview guidance.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🛡️ Server-Controlled Timed Access</h3>
+        <p>Fair, transparent pay-as-you-go pricing with instant digital pass activation via UPI, Debit/Credit cards, and Net Banking.</p>
+      </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+      <h2>Pricing & Access Plans</h2>
+      <p style="color: var(--muted);">Choose the plan that suits your interview practice needs. All payments are securely processed via Razorpay.</p>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="plan-name">10 Minutes Sprint</div>
+          <div class="plan-price">₹10</div>
+          <div class="plan-desc">10 minutes of active AI copilot access for quick question checks.</div>
+        </div>
+
+        <div class="price-card">
+          <div class="plan-name">30 Minutes Practice</div>
+          <div class="plan-price">₹25</div>
+          <div class="plan-desc">30 minutes dedicated session for mock rounds and technical queries.</div>
+        </div>
+
+        <div class="price-card popular">
+          <div class="popular-tag">Most Popular</div>
+          <div class="plan-name">1 Hour Deep Session</div>
+          <div class="plan-price">₹49</div>
+          <div class="plan-desc">60 minutes full interview copilot access with live multi-model guidance.</div>
+        </div>
+
+        <div class="price-card">
+          <div class="plan-name">3 Hours Power Pass</div>
+          <div class="plan-price">₹99</div>
+          <div class="plan-desc">180 minutes multi-round interview prep pass.</div>
+        </div>
+
+        <div class="price-card">
+          <div class="plan-name">24 Hours Day Pass</div>
+          <div class="plan-price">₹199</div>
+          <div class="plan-desc">Full 24-hour unlimited access for interview marathons.</div>
+        </div>
+
+        <div class="price-card">
+          <div class="plan-name">30 Days Monthly Pro</div>
+          <div class="plan-price">₹499</div>
+          <div class="plan-desc">30 days unlimited usage across all copilot models and transcription.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="policies" class="policy-section">
+      <div class="policy-box">
+        <h3>Terms & Conditions</h3>
+        <p>By downloading, installing, or purchasing access passes for Pika AI Copilot, you agree to comply with our terms. Pika is intended as an educational and preparation assistance copilot. Access passes are tied to your registered user account and are non-transferable. Misuse of automated services or reverse engineering of licensing verification is strictly prohibited.</p>
+      </div>
+
+      <div class="policy-box">
+        <h3>Privacy Policy</h3>
+        <p>We respect your privacy. Pika stores audio transcription sessions and local embedding vectors locally on your computer in an encrypted SQLite database. We do not sell or monetize your personal conversation data. Account emails and authentication credentials are encrypted using industry-standard salted PBKDF2 hashing.</p>
+      </div>
+
+      <div class="policy-box">
+        <h3>Refund and Cancellation Policy</h3>
+        <p>Because Pika delivers instant digital access upon transaction completion:</p>
+        <ul>
+          <li><strong>Instant Digital Delivery:</strong> Your purchased access pass is automatically activated immediately after payment verification.</li>
+          <li><strong>Technical Failures:</strong> In the rare event of a verified transaction where your access pass fails to activate due to technical server error, contact support within 24 hours for manual activation or a full refund.</li>
+          <li><strong>Cancellation:</strong> You may stop purchasing passes at any time. Active timed passes cannot be paused or refunded once partially consumed.</li>
+        </ul>
+      </div>
+
+      <div class="policy-box">
+        <h3>Shipping and Delivery Policy</h3>
+        <p>Pika is a software product. There are no physical shipments. The Windows desktop application executable is delivered digitally via direct download. Upon successful payment on Razorpay, your purchased access pass is digitally credited to your in-app account instantly via our secure payment webhook.</p>
+      </div>
+
+      <div id="contact" class="policy-box">
+        <h3>Contact Us & Customer Support</h3>
+        <p>For technical support, billing inquiries, or manual pass activation assistance:</p>
+        <ul style="list-style: none; padding-left: 0; margin-top: 10px;">
+          <li><strong>Product:</strong> Pika AI Copilot for Windows</li>
+          <li><strong>Support Email:</strong> <a href="mailto:support@pika.local" style="color: #60a5fa;">support@pika.local</a></li>
+          <li><strong>Support Response Time:</strong> Within 24-48 business hours</li>
+          <li><strong>Reviewer Test Account:</strong> <code>reviewer@pika.com</code> / <code>TestUserPass2026!</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 Pika AI Copilot. All rights reserved. Secured by Razorpay Payment Gateway.</p>
+    </footer>
+  </div>
+</body>
+</html>
